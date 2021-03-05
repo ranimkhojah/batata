@@ -10,6 +10,13 @@ import { useSpeechSynthesis, useSpeechRecognition } from 'react-speech-kit';
 const {cancel} = actions
 var firstTime = true
 
+/* questions to ask:
+- at position x (when img has a specific margins or whatever), limit the grammar/commands
+- how to check the last sent entry
+- how to access other files? it only accepts urls but not paths to files
+*/
+
+
 inspect({
     url: "https://statecharts.io/inspect",
     iframe: false
