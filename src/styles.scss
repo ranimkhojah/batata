@@ -10,7 +10,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: left;
-    background-image: url("./imgs/bg.png");
+    background-image: url("imgs/bg.png");
     // background: #000;
     background-color: #cccccc; /* Used if the image is unavailable */
     height: 90vh; /* You must set a specified height */
@@ -19,7 +19,9 @@
     background-size: contain
   
 }
-
+.timer_element{
+  margin-top: 50%;
+}
 #batata {
     position: absolute;
     top: 465px;

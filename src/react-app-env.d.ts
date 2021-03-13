@@ -14,10 +14,12 @@ interface SDSContext {
     name: string;
     meeting_time: string;
     day: string;
+    text_intent: string;
     statement: string;
     intent: string;
     duration: string;
     rule: string;
+    confidence: number;
 }
 
 type SDSEvent =

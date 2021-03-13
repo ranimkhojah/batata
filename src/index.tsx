@@ -40,6 +40,8 @@ export function say(text: string): Action<SDSContext, SDSEvent> {
     return send((_context: SDSContext) => ({ type: "SPEAK", value: text }))
 }
 
+
+
 export function listen(): Action<SDSContext, SDSEvent> {
     return send('LISTEN')
 }
@@ -74,7 +76,7 @@ const machine = Machine<SDSContext, any, SDSEvent>({
                                 assign((_context, event) => { return { recResult: event.value } })],
                             target: '.match'
                         },
-                        RECOGNISED: {target:'idle',actions: [cancel('timeout'),  assign((context)=>{return {count: Number(0)}})]}, // target idel and actions cancel
+                        RECOGNISED: {target:'idle'}, // target idel and actions cancel
                         MAXSPEECH: 'idle'
                     },
                     states: {
@@ -141,6 +143,7 @@ const ReactiveButton = (props: Props): JSX.Element => {
     }
 }
 
+
 function App() {
     const { speak, cancel, speaking } = useSpeechSynthesis({
         onEnd: () => {
@@ -166,47 +169,115 @@ function App() {
                 console.log('Recognition stopped.');
                 stop()
             }),
-            changeColour: asEffect((context) => {
-                console.log('moving the potato...');
+            gameStart: asEffect((context) => {
+                var timer = document.getElementById("timer")
+                        if(timer != null){
+                            timer.remove();
+                        }
+                displayTimer()
+
+            }),
+            goRight: asEffect((context) => {
+                console.log('moving the potato to the right...');
                 var potato_el = document.getElementById('batata')
                 if(potato_el!= null){
-                    if(context.recResult  == "go right"){
-                        console.log(context.recResult)
                         if (firstTime){
                             potato_el.style.marginLeft = "0px"; 
                             firstTime = false
                         }
+                        if(context.recResult.includes("cabinet") || context.recResult.includes("cupboard") || context.recResult.includes("closet")){
+                            potato_el.style.marginLeft = "210px"
+                        }
+                        else if(context.recResult.includes("chair")){
+                            potato_el.style.marginLeft = "490px"
+                        }
+                        else if(context.recResult.includes("table")){
+                            potato_el.style.marginLeft = "700px"
+                        }
+                        else if(context.recResult.includes("window") || context.recResult.includes("curtains")){
+                            potato_el.style.marginLeft = "900px"
+                        }else{
                         potato_el.style.marginLeft = (parseInt(potato_el.style.marginLeft.replace('px','')) + 70 ).toString() + "px"; 
-                    }
-                    else if(context.recResult  == "go left"){
-                        console.log(context.recResult)
+                        }
+                }
+            }),
+            goLeft: asEffect((context) => {
+                console.log('moving the potato to the left...');
+                var potato_el = document.getElementById('batata')
+                if(potato_el!= null){
                         if (firstTime){
                             potato_el.style.marginLeft = "0px"; 
                             firstTime = false
                         }
-                        potato_el.style.marginLeft = (parseInt(potato_el.style.marginLeft.replace('px','')) - 70 ).toString() + "px"; 
-                    }
-                    else if(context.recResult  == "open"){
-                        console.log(context.recResult)
-                        var bg_el = document.getElementById('bg');
-                        if (bg_el != null){
-                            bg_el.style.backgroundImage = "url('https://i.imgur.com/xlJEVfm.png')";
+                        if(context.recResult.includes("cabinet") || context.recResult.includes("cupboard") || context.recResult.includes("closet")){
+                            potato_el.style.marginLeft = "210px"
                         }
-                    } 
-                    else if(context.recResult  == "close"){
-                        console.log(context.recResult)
-                        var bg_el = document.getElementById('bg');
-                        if (bg_el != null){
-                            bg_el.style.backgroundImage = "url('https://i.imgur.com/5e1tAMP.png')";
+                        else if(context.recResult.includes("chair")){
+                            potato_el.style.marginLeft = "490px"
                         }
+                        else if(context.recResult.includes("table")){
+                            potato_el.style.marginLeft = "700px"
+                        }
+                        else if(context.recResult.includes("window") || context.recResult.includes("curtains")){
+                            potato_el.style.marginLeft = "900px"
+                        }else{
+                            potato_el.style.marginLeft = (parseInt(potato_el.style.marginLeft.replace('px','')) - 70 ).toString() + "px"; 
+                        }
+                }
+            }),
+           
+            open: asEffect((context) => {
+                console.log('opening...');
+                var potato_el = document.getElementById('batata')
+                var bg_el = document.getElementById('bg');
+                if (bg_el != null && potato_el!= null){
+                    // if the potato is next to the cabinet
+                    if(potato_el.style.marginLeft > "139px" && potato_el.style.marginLeft < "220px"){ 
+                        bg_el.style.backgroundImage = "url('https://i.imgur.com/WQhVQYi.png')";}
+                }
+            }),
+            lose: asEffect((context) => {
+                console.log('Game Over');
+                var potato_el = document.getElementById('batata')
+                if (potato_el!= null && potato_el.src == "https://i.imgur.com/zCqQtnF.png"){
+                
+                        potato_el.src = "https://i.imgur.com/KmN8LvB.png";
+                        potato_el.style.width = "206px"
+                        // potato_el.style.height = "114px"
+                    
                     }
-                    else if(context.recResult  == "be cool"){
-                        console.log(context.recResult)
-                        potato_el.src = "https://i.imgur.com/LJTndGV.png";
-                        potato_el.style.width = "120px";
-                        // potato_el.style.height = "135px";
+            }),
+            close: asEffect((context) => {
+                console.log('closing...');
+                var bg_el = document.getElementById('bg');
+                if (bg_el != null){
+                    bg_el.style.backgroundImage = "url('https://i.imgur.com/KmN8LvB.png')";
+                }
+                
+            }),
+            //sad potato: https://i.imgur.com/Mh1aRhA.png     -     https://i.imgur.com/KmN8LvB.png  
+            take: asEffect((context) => {
+                console.log('play video...');
+                var potato_el = document.getElementById('batata');
+                var bg_el = document.getElementById('bg');
+                if(potato_el != null && bg_el != null){
+                    console.log(potato_el.style.marginLeft);
+                    console.log(bg_el.style.backgroundImage)
+                      
+                    //if the potato is infront of the cabinet and it is already open
+                    if(potato_el.style.marginLeft > "139px" && potato_el.style.marginLeft < "220px" && bg_el.style.backgroundImage == 'url("https://i.imgur.com/WQhVQYi.png")'){
+                        var timer = document.getElementById("timer")
+                        if(timer != null){
+                            timer.remove();
+                        }
+                        cancel('timeout')
+                        potato_el.src = "http://pa1.narvii.com/7324/3ec4179c3653b974d7197b01fe372f1ec4e45b4er1-370-300_00.gif";
+                        potato_el.style.width = "200px";
+                        potato_el.style.height = "250px";
+                        displayVid()
                     }
                 }
+                
             }),
             ttsStart: asEffect((context, effect) => {
                 console.log('Speaking...');
@@ -231,6 +302,38 @@ function App() {
     )
 };
 
+
+function displayTimer() {
+    const div = document.createElement('div');
+  
+    div.id = 'timer';
+  
+    div.innerHTML = `
+    <img class = "timer_element" src="https://timertopia.files.wordpress.com/2017/04/1-minute.gif" width="110" ">
+    `;
+    var d_el = document.getElementById('bg');
+    if(d_el != null){
+        d_el.appendChild(div);
+    }
+}
+
+
+
+function displayVid() {
+    const div = document.createElement('div');
+  
+    div.className = 'row';
+  
+    div.innerHTML = `
+    <iframe width="1020" height="900" src="https://www.youtube.com/embed/q7uyKYeGPdE?autoplay=1" allow="autoplay" allowfullscreen>
+    </iframe>
+    `;
+    var d_el = document.getElementById('bg');
+    if(d_el != null){
+        d_el.appendChild(div);
+    }
+}
+  
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

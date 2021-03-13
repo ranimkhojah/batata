@@ -1,9 +1,5 @@
 import { MachineConfig, send, assign } from "xstate";
 import { promptAndAsk } from "./index";
-import { dmMachine } from "./dmAppointment";
-import { dmMachineTodo } from "./dmTodo";
-import { dmMachineTimer } from "./dmTimer";
-import { dmMachineHome } from "./dmSmartHome";
 
 import { loadGrammar } from './runparser'
 import { parse } from './chartparser'
@@ -71,17 +67,17 @@ export const dmMachineMain: MachineConfig<SDSContext, any, SDSEvent> = ({
                     { target: 'welcome' }] 
                 } 
         },
-        appointment: {
-           ...dmMachine 
-        },
-        item: {
-            ...dmMachineTodo
-        },
-        timer: {
-            ...dmMachineTimer
-        },
-        smart_home: {
-            ...dmMachineHome
-        }
+        // appointment: {
+        //    ...dmMachine 
+        // },
+        // item: {
+        //     ...dmMachineTodo
+        // },
+        // timer: {
+        //     ...dmMachineTimer
+        // },
+        // smart_home: {
+        //     ...dmMachineHome
+        // }
     }
 })
