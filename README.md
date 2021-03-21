@@ -21,4 +21,9 @@ or use the deployed version: `https://ranimkhojah.github.io/batata/`.
 - Click on _Start Game_.
 - Direct Batata by telling him his next step.
 - Find the kitchen key.
-- Watch Batata enjoying the potato party in the kitchen.
+- Watch Batata celebrating with his potato-pals.
+
+### Useful links:
+- Deployed Rasa app on Heroku : `https://mr-batata.herokuapp.com/`
+- CORS Anywhere [dev only] : `https://cors-anywhere.herokuapp.com/corsdemo`
+- Xstate (state chart) interface : `https://statecharts.io/inspect`
