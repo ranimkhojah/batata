@@ -144,7 +144,12 @@ const ReactiveButton = (props: Props): JSX.Element => {
 }
 
 
+var lvl1 = true;
+var lvl2 = false;
 function App() {
+    var potato_el = document.getElementById('batata')
+    var bg_el = document.getElementById('bg');
+
     const { speak, cancel, speaking } = useSpeechSynthesis({
         onEnd: () => {
             send('ENDSPEECH');
@@ -178,9 +183,10 @@ function App() {
 
             }),
             goRight: asEffect((context) => {
+                
                 console.log('moving the potato to the right...');
-                var potato_el = document.getElementById('batata')
-                if(potato_el!= null){
+                if(potato_el!= null && bg_el !=null){
+                    console.log(bg_el.style.backgroundImage);
                         if (firstTime){
                             potato_el.style.marginLeft = "0px"; 
                             firstTime = false
@@ -191,7 +197,7 @@ function App() {
                         else if(context.recResult.includes("chair")){
                             potato_el.style.marginLeft = "490px"
                         }
-                        else if(context.recResult.includes("table")){
+                        else if(context.recResult.includes("table") || context.recResult.includes("tub") || context.recResult.includes("bathtub") || context.recResult.includes("bus") || context.recResult.includes("stop")){
                             potato_el.style.marginLeft = "700px"
                         }
                         else if(context.recResult.includes("window") || context.recResult.includes("curtains")){
@@ -203,7 +209,6 @@ function App() {
             }),
             goLeft: asEffect((context) => {
                 console.log('moving the potato to the left...');
-                var potato_el = document.getElementById('batata')
                 if(potato_el!= null){
                         if (firstTime){
                             potato_el.style.marginLeft = "0px"; 
@@ -228,54 +233,95 @@ function App() {
            
             open: asEffect((context) => {
                 console.log('opening...');
-                var potato_el = document.getElementById('batata')
-                var bg_el = document.getElementById('bg');
                 if (bg_el != null && potato_el!= null){
+                    console.log(bg_el.style.backgroundImage+" hii");
+                if(lvl2 ){
+                    if(potato_el.style.marginLeft > "120px" && potato_el.style.marginLeft < "290px"){
+                    bg_el.style.backgroundImage = 'url("https://i.imgur.com/3PXWTO9.jpeg")';
+                    }
+                }else if(lvl1){
+                
+                
                     // if the potato is next to the cabinet
-                    if(potato_el.style.marginLeft > "139px" && potato_el.style.marginLeft < "220px"){ 
-                        bg_el.style.backgroundImage = "url('https://i.imgur.com/WQhVQYi.png')";}
+                    if(potato_el.style.marginLeft > "129px" && potato_el.style.marginLeft < "230px"){ 
+                        bg_el.style.backgroundImage = 'url("https://i.imgur.com/WQhVQYi.png")';
+                    }
                 }
-            }),
+            }
+        }),
             lose: asEffect((context) => {
                 console.log('Game Over');
-                var potato_el = document.getElementById('batata')
                 if (potato_el!= null && potato_el.src == "https://i.imgur.com/zCqQtnF.png"){
-                
                         potato_el.src = "https://i.imgur.com/KmN8LvB.png";
-                        potato_el.style.width = "206px"
-                        // potato_el.style.height = "114px"
-                    
+                        potato_el.style.width = "200px";
+                        potato_el.style.height = "160px";
                     }
             }),
             close: asEffect((context) => {
                 console.log('closing...');
-                var bg_el = document.getElementById('bg');
-                if (bg_el != null){
-                    bg_el.style.backgroundImage = "url('https://i.imgur.com/KmN8LvB.png')";
+                if (bg_el != null && potato_el!=null){
+                    if(lvl2){
+                        if(potato_el.style.marginLeft > "120px" && potato_el.style.marginLeft < "220px"){
+                            bg_el.style.backgroundImage = "url('https://i.imgur.com/fBxj3Sm.jpeg')";
+                        }
+                    }
+                    else if(potato_el.style.marginLeft > "139px" && potato_el.style.marginLeft < "220px" && lvl1){
+                    bg_el.style.backgroundImage = "url('https://i.imgur.com/RuUfqPe.png')";
+                    }
                 }
                 
             }),
-            //sad potato: https://i.imgur.com/Mh1aRhA.png     -     https://i.imgur.com/KmN8LvB.png  
+            jump: asEffect((context) => {
+                console.log('jumping...');
+                console.log(lvl2);
+                if(potato_el!=null && bg_el != null){
+                if(lvl2){
+                if(potato_el.style.marginLeft > "650px" && potato_el.style.marginLeft < "750px" ){
+                    bg_el.style.backgroundImage = "url('https://i.imgur.com/sFtt7VG.png')";
+                    potato_el.style.display = 'none';
+            }
+        }
+        }
+                
+            }),
             take: asEffect((context) => {
                 console.log('play video...');
-                var potato_el = document.getElementById('batata');
-                var bg_el = document.getElementById('bg');
                 if(potato_el != null && bg_el != null){
-                    console.log(potato_el.style.marginLeft);
-                    console.log(bg_el.style.backgroundImage)
-                      
+
+                    if(lvl1){
                     //if the potato is infront of the cabinet and it is already open
-                    if(potato_el.style.marginLeft > "139px" && potato_el.style.marginLeft < "220px" && bg_el.style.backgroundImage == 'url("https://i.imgur.com/WQhVQYi.png")'){
+                    if(potato_el.style.marginLeft > "139px" && potato_el.style.marginLeft < "220px"){
                         var timer = document.getElementById("timer")
                         if(timer != null){
                             timer.remove();
                         }
-                        cancel('timeout')
+                        cancel('timeout');
                         potato_el.src = "http://pa1.narvii.com/7324/3ec4179c3653b974d7197b01fe372f1ec4e45b4er1-370-300_00.gif";
-                        potato_el.style.width = "200px";
-                        potato_el.style.height = "250px";
-                        displayVid()
+                        potato_el.style.width = "220px";
+                        potato_el.style.height = "170px";
+                        nextLevelButton("Next Level")
+                        lvl1 = false;
+                        lvl2 = true;
+                        console.log("lvl2 is ");
+                        console.log(lvl2);
+                    
                     }
+                }else if(lvl2){
+                    if(potato_el.style.marginLeft > "650px" && potato_el.style.marginLeft < "750px"){
+                        var timer = document.getElementById("timer")
+                        if(timer != null){
+                            timer.remove();
+                        }
+                        cancel('timeout');
+                        bg_el.style.backgroundImage = "url('https://i.imgur.com/xuOXlv5.jpg')";
+                        potato_el.style.display = '';
+                        potato_el.src = "http://pa1.narvii.com/7324/3ec4179c3653b974d7197b01fe372f1ec4e45b4er1-370-300_00.gif";
+                        potato_el.style.width = "220px";
+                        potato_el.style.height = "170px";
+                        nextLevelButton("Celebrate")
+
+                    }
+                }
                 }
                 
             }),
@@ -309,8 +355,23 @@ function displayTimer() {
     div.id = 'timer';
   
     div.innerHTML = `
-    <img class = "timer_element" src="https://timertopia.files.wordpress.com/2017/04/1-minute.gif" width="110" ">
+    <img id = "timer_element" src="https://timertopia.files.wordpress.com/2017/04/1-minute.gif" width="110" ">
     `;
+    var d_el = document.getElementById('bg');
+    if(d_el != null){
+        d_el.appendChild(div);
+    }
+}
+
+function nextLevelButton(text: string ) {
+    const div = document.createElement('div');
+  
+    div.className = 'row';
+    if(text.includes("Next")){
+        div.innerHTML = `<button id='nxt-btn' class='buttonNext' onclick='goToNextLvl()'>Next Level</button>`;
+    }else{
+        div.innerHTML = `<button id='nxt-btn2' class='buttonNext' onclick='displayVid()'>Celebrate</button>`;
+    }
     var d_el = document.getElementById('bg');
     if(d_el != null){
         d_el.appendChild(div);

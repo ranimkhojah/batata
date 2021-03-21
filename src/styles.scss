@@ -12,14 +12,29 @@
     align-items: left;
     background-image: url("imgs/bg.png");
     // background: #000;
-    background-color: #cccccc; /* Used if the image is unavailable */
+    background-color: #ffffff; /* Used if the image is unavailable */
     height: 90vh; /* You must set a specified height */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: contain
   
 }
-.timer_element{
+.buttonNext {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #008CBA;
+  position: absolute;
+  top: 70px;
+  left:640px;
+}
+#timer_element{
   margin-top: 50%;
 }
 #batata {
