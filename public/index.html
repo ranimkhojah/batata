@@ -56,7 +56,19 @@ function goToNextLvl(){
     } 
     var elem = document.getElementById('nxt-btn');
     elem.style.display = 'none';
-    displayTimer()
+    var timer = document.getElementById("timer")
+    if(timer != null){
+        timer.style.display = '';
+    }else{
+        displayTimer()
+    }
+    // send('MAXSPEECH', {delay: 60000 , id: 'timeout'});
+    // cancel('timeout');
+    // send('MAXSPEECH', {delay: 60000 , id: 'timeout'});
+    var img_el = document.getElementById('timer_element');
+    imageUrl = img_el.src;
+    img_el.src = "";
+    img_el.src = imageUrl;
     
 }
 }
@@ -79,7 +91,7 @@ function displayVid() {
   
 function displayTimer() {
     const div = document.createElement('div');
-  
+    
     div.id = 'timer';
   
     div.innerHTML = `
@@ -89,10 +101,7 @@ function displayTimer() {
     if(d_el != null){
         d_el.appendChild(div);
     }
-    var img_el = document.getElementById('timer_element');
-    imageUrl = img_el.src;
-    img_el.src = "";
-    img_el.src = imageUrl;
+    
 }
     </script>
 </body>
