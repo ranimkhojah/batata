@@ -18,6 +18,7 @@
   npm start
 ```
 or use the deployed version: `https://ranimkhojah.github.io/batata/`.
+
 supported browsers: https://caniuse.com/mdn-api_speechsynthesisvoice_name
 
 ### How to play:
