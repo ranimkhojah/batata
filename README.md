@@ -9,6 +9,9 @@
 ### How to run:
 
 ```shell
+# clone the repo
+  https://github.com/ranimkhojah/batata.git
+  cd batata/
 # install dependencies
   npm install
 # launch the app
