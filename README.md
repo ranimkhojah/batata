@@ -19,13 +19,14 @@
 ```
 or use the deployed version: `https://ranimkhojah.github.io/batata/`.
 
-supported browsers: https://caniuse.com/mdn-api_speechsynthesisvoice_name
-
 ### How to play:
 - Click on _Start Game_.
 - Direct Batata by telling him his next step.
 - Find the kitchen key.
 - Watch Batata celebrating with his potato-pals.
+
+### Troubleshoot:
+If the game doesn't recognize your speech although you use a [supported browser]( https://caniuse.com/mdn-api_speechsynthesisvoice_name), make sure to visit the [Heroku app](https://mr-batata.herokuapp.com/) to awaken it if it's asleep, and request a [temporary access](https://cors-anywhere.herokuapp.com/corsdemo) to the demo server.
 
 ### Useful links:
 - Deployed Rasa app on Heroku : `https://mr-batata.herokuapp.com/`
